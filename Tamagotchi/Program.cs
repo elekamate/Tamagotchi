@@ -10,9 +10,21 @@ namespace Tamagotchi
     {
         static void Main(string[] args)
         {
-            // The code provided will print ‘Hello World’ to the console.
-            // Press Ctrl+F5 (or go to Debug > Start Without Debugging) to run your app.
+            ConsoleKeyInfo consoleInput;
+            Animal 
             Tamagotchi.WelcomeMessage();
+            do
+            {
+                consoleInput = Console.ReadKey();
+                if (consoleInput.Key == ConsoleKey.C)
+                {
+                    
+                }
+                if (consoleInput.Key == ConsoleKey.C)
+                {
+
+                }
+            } while (consoleInput.Key != ConsoleKey.C && consoleInput.Key != ConsoleKey.D);
             Console.ReadLine();
         }
     }

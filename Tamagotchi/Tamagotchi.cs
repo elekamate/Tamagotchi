@@ -11,8 +11,11 @@ namespace Tamagotchi
         public static void WelcomeMessage()
         {
             Console.WriteLine("Welcome!");
-            Console.WriteLine("To create a tamagotchi press ''c''");
+            Console.WriteLine("Press ''C'' key to create a cat tamagotchi.");
+            Console.WriteLine("Press ''D'' key to create a dog tamagotchi.");
+            Console.WriteLine("Press ''Escape'' key to quit.");
         }
+
         public static void CreateAnimal()
         {
 

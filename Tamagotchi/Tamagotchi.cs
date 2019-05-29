@@ -9,8 +9,7 @@ namespace Tamagotchi
 {
     class Tamagotchi
     {
-        public Animal tamagotchi { get; set; }
-
+        public static int timePassIntervall = 3000;
         public static void WelcomeMessage()
         {
             Console.WriteLine("Welcome!");

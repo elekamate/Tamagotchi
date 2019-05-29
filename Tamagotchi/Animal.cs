@@ -15,6 +15,26 @@ namespace Tamagotchi
         private sbyte satiationPlay = 100;
         private sbyte satiationEarScratch = 100;
 
+        public sbyte GetSatiationEat()
+        {
+            return satiationEat;
+        }
+
+        public sbyte GetSatiationDrink()
+        {
+            return satiationDrink;
+        }
+
+        public sbyte GetSatiationPlay()
+        {
+            return satiationPlay;
+        }
+
+        public sbyte GetSatiationEarScratch()
+        {
+            return satiationEarScratch;
+        }
+
         private sbyte actionOver = -10;
         private sbyte actionOk = 30;
         private sbyte actionUnder = -20;
@@ -68,11 +88,11 @@ namespace Tamagotchi
 
         public virtual void TimePass()
         {
-            satiationEat -= 3;
-            satiationDrink -= 10;
-            satiationPlay -= 5;
-            satiationEarScratch -= 1;
-            Console.WriteLine($"Satiations - eat: {satiationEat}, drink: {satiationEat}_" +
+            SatiationEatModify(-3);
+            SatiationDrinkModify(-10);
+            SatiationPlayModify(-5);
+            SatiationEarScratchModify(-1);
+            Console.WriteLine($"Satiations - eat: {satiationEat}, drink: {satiationDrink}" +
                 $", play: {satiationPlay}, earScratch: {satiationEarScratch} ");
         }
 

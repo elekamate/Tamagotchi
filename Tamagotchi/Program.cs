@@ -26,7 +26,7 @@ namespace Tamagotchi
 
             System.Timers.Timer aTimer = new System.Timers.Timer();
             aTimer.Elapsed += (sender, e) => FreqCycleCount(sender, e, tamagotchi);
-            aTimer.Interval = 5000;
+            aTimer.Interval = Tamagotchi.timePassIntervall;
             aTimer.Enabled = true;
 
             Console.ReadLine();

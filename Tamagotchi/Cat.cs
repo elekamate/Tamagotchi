@@ -8,9 +8,5 @@ namespace Tamagotchi
 {
     class Cat : Animal
     {  
-        public Cat()
-        {
-            AnimalCreated("Cat");
-        }
     }
 }

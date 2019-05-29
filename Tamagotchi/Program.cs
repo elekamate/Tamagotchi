@@ -35,7 +35,6 @@ namespace Tamagotchi
         private static void FreqCycleCount(object source, ElapsedEventArgs e, Animal tamagotchi)
         {
             tamagotchi.TimePass();
-            tamagotchi.CheckNeeds();
         }
     }
 }

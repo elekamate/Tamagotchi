@@ -9,6 +9,7 @@ namespace Tamagotchi
     abstract class Animal
     {
         private sbyte wellBeing = 100;
+        private sbyte satiationIncrement = 10;
         private sbyte satiationEat = 100;
         private sbyte satiationDrink = 100;
         private sbyte satiationPlay = 100;
@@ -18,32 +19,27 @@ namespace Tamagotchi
         private sbyte actionOk = 30;
         private sbyte actionUnder = -20;
 
-        private sbyte needFreqCyclesEat = 10;
-        private sbyte needFreqCyclesDrink = 2;
-        private sbyte needFreqCyclesPlay = 5;
-        private sbyte needFreqCyclesEarScratch = 7;
-        private sbyte freqCycleCounter = 0;
-        private sbyte freqCycleLastEat = 0;
-        private sbyte freqCycleLastDrink = 0;
-        private sbyte freqCycleLastPlay = 0;
-        private sbyte freqCycleLastEarScratch = 0;
-
         private ConsoleKey keyToEat = ConsoleKey.E;
         private ConsoleKey keyToDrink = ConsoleKey.D;
         private ConsoleKey keyToPlay = ConsoleKey.P;
         private ConsoleKey keyToEarScratch = ConsoleKey.S;
+        private string actualAction;
+        private sbyte origWellBeing;
+        private sbyte origMeasure;
 
         public void TimePass()
         {
-            freqCycleCounter++;
             satiationEat -= 3;
             satiationDrink -= 10;
             satiationPlay -= 5;
             satiationEarScratch -= 1;
+            Console.WriteLine($"Satiations - eat: {satiationEat}, drink: {satiationEat}_" +
+                $", play: {satiationPlay}, earScratch: {satiationEarScratch} ");
         }
 
         public void ModifyWellBeing(sbyte delta)
         {
+            origWellBeing = wellBeing;
             if (wellBeing + delta >= 0 && wellBeing + delta <= 100)
             {
                 wellBeing += delta;
@@ -56,36 +52,54 @@ namespace Tamagotchi
             {
                 wellBeing = 100;
             }
+            Console.WriteLine($"Wellbeing modified from {origWellBeing} to {wellBeing}.");
         }
-
 
         public void Eat()
         {
             Console.WriteLine($"Tamagotchi is eating.");
-            freqCycleLastEat = freqCycleCounter;
+            actualAction = "Eat";
+            satiationEat = AdjustSatiation(satiationEat);
         }
 
         public void Drink()
         {
             Console.WriteLine($"Tamagotchi is drinking.");
-            freqCycleLastDrink = freqCycleCounter;
+            satiationDrink = AdjustSatiation(satiationEat);
         }
 
         public void Play()
         {
             Console.WriteLine($"Tamagotchi is playing.");
-            freqCycleLastPlay = freqCycleCounter;
+            satiationPlay = AdjustSatiation(satiationEat);
         }
 
         public void EarScratch()
         {
             Console.WriteLine($"Tamagotchi's ear is being scratched right now.");
-            freqCycleLastEarScratch = freqCycleCounter;
+            satiationEarScratch = AdjustSatiation(satiationEat);
         }
 
-        public void CheckNeeds()
+        private sbyte AdjustSatiation(sbyte measure)
         {
-
+            origMeasure = measure;            
+            if (measure + satiationIncrement >= 0 && measure + satiationIncrement <= 100)
+            {
+                measure += satiationIncrement;
+                ModifyWellBeing(actionOk);
+            }
+            else if (measure + satiationIncrement < 0)
+            {
+                measure = 0;
+                ModifyWellBeing(actionUnder);
+            }
+            else if (measure + satiationIncrement > 100)
+            {
+                measure = 100;
+                ModifyWellBeing(actionOver);
+            }
+            Console.WriteLine($"{actualAction} satiation modified from {origMeasure} to {measure}.");
+            return measure;
         }
     }
 }

@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Tamagotchi
 {
-    class Cat
-    {
+    class Cat : Animal
+    {  
+        public Cat()
+        {
+            AnimalCreated("Cat");
+        }
     }
 }

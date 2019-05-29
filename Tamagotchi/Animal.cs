@@ -27,15 +27,6 @@ namespace Tamagotchi
         private sbyte origWellBeing;
         private sbyte origMeasure;
 
-        public void TimePass()
-        {
-            satiationEat -= 3;
-            satiationDrink -= 10;
-            satiationPlay -= 5;
-            satiationEarScratch -= 1;
-            Console.WriteLine($"Satiations - eat: {satiationEat}, drink: {satiationEat}_" +
-                $", play: {satiationPlay}, earScratch: {satiationEarScratch} ");
-        }
 
         public void ModifyWellBeing(sbyte delta)
         {
@@ -53,6 +44,36 @@ namespace Tamagotchi
                 wellBeing = 100;
             }
             Console.WriteLine($"Wellbeing modified from {origWellBeing} to {wellBeing}.");
+        }
+
+        public void SatiationEatModify(sbyte delta)
+        {
+            satiationEat += delta;
+        }
+
+        public void SatiationDrinkModify(sbyte delta)
+        {
+            satiationDrink += delta;
+        }
+
+        public void SatiationPlayModify(sbyte delta)
+        {
+            satiationPlay += delta;
+        }
+
+        public void SatiationEarScratchModify(sbyte delta)
+        {
+            satiationEarScratch += delta;
+        }
+
+        public virtual void TimePass()
+        {
+            satiationEat -= 3;
+            satiationDrink -= 10;
+            satiationPlay -= 5;
+            satiationEarScratch -= 1;
+            Console.WriteLine($"Satiations - eat: {satiationEat}, drink: {satiationEat}_" +
+                $", play: {satiationPlay}, earScratch: {satiationEarScratch} ");
         }
 
         public void Eat()

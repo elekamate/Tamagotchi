@@ -49,19 +49,21 @@ namespace Tamagotchi
         public virtual void PrintCreatedMessage()
         {
             PrintCreatedMessageBase();
-            Console.WriteLine($"-----------------------------------------------");
+            Console.WriteLine($"------------------------------------------------");
         }
 
         protected void PrintCreatedMessageBase()
         {
             Console.WriteLine("");
-            Console.WriteLine($"-----Cat has been created successfully!--------");
-            Console.WriteLine($"---Write '{keyToStopTime}' char to stop the time.------------");
-            Console.WriteLine($"---Write '{codeToStopApp}' char to stop the app.-------------");
-            Console.WriteLine($"---Write '{keyToEat}' char to feed him.-----------------");
-            Console.WriteLine($"---Write '{keyToDrink}' char to give him water.-----------");
-            Console.WriteLine($"---Write '{keyToPlay}' char to play with him.------------");
-            Console.WriteLine($"---Write '{keyToEarScratch}' char to scratch his ears.---------");
+            Console.WriteLine($"-----{this.GetType().Name} has been created successfully!---------");
+            Console.WriteLine($"-----Write a string, then press 'Enter'.");
+            Console.WriteLine($"-----Writing multiple chars, will do multiple actions.");
+            Console.WriteLine($"---Write '{keyToStopTime}' char to stop the time.");
+            Console.WriteLine($"---Write '{codeToStopApp}' char to stop the app.");
+            Console.WriteLine($"---Write '{keyToEat}' char to feed him.");
+            Console.WriteLine($"---Write '{keyToDrink}' char to give him water.");
+            Console.WriteLine($"---Write '{keyToPlay}' char to play with him.");
+            Console.WriteLine($"---Write '{keyToEarScratch}' char to scratch his ears.");
         }
 
         public virtual void TimePass()

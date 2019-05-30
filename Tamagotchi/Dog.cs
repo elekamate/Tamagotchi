@@ -20,8 +20,8 @@ namespace Tamagotchi
         public override void PrintCreatedMessage()
         {
             PrintCreatedMessageBase();
-            Console.WriteLine($"---Write '{keyToWalk}' char to walk him.-----------------");
-            Console.WriteLine($"-----------------------------------------------");
+            Console.WriteLine($"---Write '{keyToWalk}' char to walk him.");
+            Console.WriteLine($"------------------------------------------------");
         }
 
         public override void TimePass()

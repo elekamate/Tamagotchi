@@ -8,6 +8,13 @@ namespace Tamagotchi
 {
     class Dog : Animal
     {
+        private ConsoleKey keyToWalk = ConsoleKey.W;
+
+        public Dog()
+        {
+            charsToActions.Add('s', EarScratch);
+        }
+
         public override void TimePass()
         {
             AdjustSatiationsOverTimeCycle();

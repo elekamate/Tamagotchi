@@ -11,20 +11,21 @@ namespace Tamagotchi
     {
         static void Main(string[] args)
         {
-            ConsoleKeyInfo consoleInput;
+            ConsoleKeyInfo consoleKeyInput;
+            string consoleLineInput;
             Animal tamagotchi;
             Tamagotchi.WelcomeMessage();
             do
             {
-                consoleInput = Console.ReadKey();
-                if (consoleInput.Key == ConsoleKey.Escape)
+                consoleKeyInput = Console.ReadKey();
+                if (consoleKeyInput.Key == ConsoleKey.Escape)
                 {
                     Environment.Exit(0);
                 }
-            } while (consoleInput.Key != ConsoleKey.C && consoleInput.Key != ConsoleKey.D);
+            } while (consoleKeyInput.Key != ConsoleKey.C && consoleKeyInput.Key != ConsoleKey.D);
 
             Tamagotchi.ClearConsoleLine();
-            tamagotchi = AnimalFactory.Create(consoleInput);
+            tamagotchi = AnimalFactory.Create(consoleKeyInput);
             tamagotchi.PrintCreatedMessage();
             
             Tamagotchi.timeIntervallProvider = new Timer();
@@ -34,12 +35,13 @@ namespace Tamagotchi
 
             do
             {
-                consoleInput = Console.ReadKey();
-                if (consoleInput.Key == ConsoleKey.Spacebar)
+                consoleLineInput = Console.ReadLine();
+                if (consoleKeyInput.Key == ConsoleKey.Escape)
                 {
-                    Tamagotchi.timeIntervallProvider.Enabled = false;
+                    Environment.Exit(0);
                 }
-            } while (consoleInput.Key != ConsoleKey.C && consoleInput.Key != ConsoleKey.D);
+                tamagotchi.DoAction(consoleLineInput);
+            } while (consoleKeyInput.Key != ConsoleKey.Escape);
         }
 
         private static void FreqCycleCount(object source, ElapsedEventArgs e, Animal tamagotchi)

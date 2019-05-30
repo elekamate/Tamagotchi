@@ -15,6 +15,28 @@ namespace Tamagotchi
         private sbyte satiationPlay = 100;
         private sbyte satiationEarScratch = 100;
 
+        protected Dictionary<char, Action> charsToActions;
+
+        public Animal()
+        {
+            charsToActions = new Dictionary<char, Action>();
+            charsToActions.Add('e', Eat);
+            charsToActions.Add('d', Drink);
+            charsToActions.Add('p', Play);
+            charsToActions.Add('s', EarScratch);
+        }
+
+        internal void DoAction(string consoleLineInput)
+        {
+            foreach (KeyValuePair<char, Action> item in charsToActions)
+            {
+                if (consoleLineInput.ToLower().Contains(item.Key))
+                {
+                    item.Value();
+                }
+            }
+        }
+
         public sbyte GetSatiationEat()
         {
             return satiationEat;
@@ -51,6 +73,7 @@ namespace Tamagotchi
             Console.WriteLine($"---Press 'S' key to scratch his ears.-------");
         }
 
+
         private sbyte actionOver = -10;
         private sbyte actionOk = 30;
         private sbyte actionUnder = -20;
@@ -60,13 +83,16 @@ namespace Tamagotchi
         private sbyte satiationPlayIncrementOverTimeCycle = -5;
         private sbyte satiationEarScratchIncrementOverTimeCycle = -1;
 
-        private ConsoleKey keyToEat = ConsoleKey.E;
-        private ConsoleKey keyToDrink = ConsoleKey.D;
-        private ConsoleKey keyToPlay = ConsoleKey.P;
-        private ConsoleKey keyToEarScratch = ConsoleKey.S;
+        private char keyToEat = 'e';
+        private char keyToDrink = 'd';
+        private char keyToPlay = 'p';
+        private char keyToEarScratch = 's';
+        
+
         private string actualAction;
         private sbyte origWellBeing;
         private sbyte modifiedMeasure;
+
 
 
         public void ModifyWellBeing(sbyte delta)

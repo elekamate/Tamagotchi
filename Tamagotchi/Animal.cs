@@ -8,34 +8,43 @@ namespace Tamagotchi
 {
     abstract class Animal
     {
-        private sbyte wellBeing = 100;
-        private sbyte satiationIncrement = 10;
-        private sbyte satiationEat = 100;
-        private sbyte satiationDrink = 100;
-        private sbyte satiationPlay = 100;
-        private sbyte satiationEarScratch = 100;
+        protected sbyte wellBeing = 100;
+        protected sbyte satiationIncrement = 10;
+        protected sbyte satiationEat = 100;
+        protected sbyte satiationDrink = 100;
+        protected sbyte satiationPlay = 100;
+        protected sbyte satiationEarScratch = 100;
 
         protected Dictionary<char, Action> charsToActions;
+        protected sbyte actionOver = -10;
+        protected sbyte actionOk = 30;
+        protected sbyte actionUnder = -20;
+
+        protected sbyte satiationEatIncrementOverTimeCycle = -3;
+        protected sbyte satiationDrinkIncrementOverTimeCycle = -10;
+        protected sbyte satiationPlayIncrementOverTimeCycle = -5;
+        protected sbyte satiationEarScratchIncrementOverTimeCycle = -1;
+
+        protected char keyToEat = 'e';
+        protected char keyToDrink = 'd';
+        protected char keyToPlay = 'p';
+        protected char keyToEarScratch = 's';
+        protected char keyToStopTime = 'x';
+
+        protected string actualAction;
+        protected sbyte origWellBeing;
+        protected sbyte modifiedMeasure;
 
         public Animal()
         {
             charsToActions = new Dictionary<char, Action>();
+            charsToActions.Add('x', StopTime);
             charsToActions.Add('e', Eat);
             charsToActions.Add('d', Drink);
             charsToActions.Add('p', Play);
             charsToActions.Add('s', EarScratch);
         }
 
-        internal void DoAction(string consoleLineInput)
-        {
-            foreach (KeyValuePair<char, Action> item in charsToActions)
-            {
-                if (consoleLineInput.ToLower().Contains(item.Key))
-                {
-                    item.Value();
-                }
-            }
-        }
 
         public sbyte GetSatiationEat()
         {
@@ -57,41 +66,38 @@ namespace Tamagotchi
             return satiationEarScratch;
         }
 
+        public void DoAction(string consoleLineInput)
+        {
+            foreach (KeyValuePair<char, Action> item in charsToActions)
+            {
+                if (consoleLineInput.ToLower().Contains(item.Key))
+                {
+                    item.Value();
+                }
+            }
+        }
+
+        public void CheckAndModifyWellbeing()
+        {
+
+        }
+
         public virtual void PrintCreatedMessage()
         {
             PrintCreatedMessageBase();
-            Console.WriteLine($"--------------------------------------------");
+            Console.WriteLine($"---------------------------------------------");
         }
 
         protected void PrintCreatedMessageBase()
         {
-            Console.WriteLine($"-----Cat has been created successfully!-----");
-            Console.WriteLine($"---Press 'SpaceBar' key to stop the time.---");
-            Console.WriteLine($"---Press 'E' key to feed him.---------------");
-            Console.WriteLine($"---Press 'D' key to give him water.---------");
-            Console.WriteLine($"---Press 'P' key to play with him.----------");
-            Console.WriteLine($"---Press 'S' key to scratch his ears.-------");
+            Console.WriteLine("");
+            Console.WriteLine($"-----Cat has been created successfully!------");
+            Console.WriteLine($"---Write 'x' char to stop the time.----------");
+            Console.WriteLine($"---Write 'e' char to feed him.---------------");
+            Console.WriteLine($"---Write 'd' char to give him water.---------");
+            Console.WriteLine($"---Write 'p' char to play with him.----------");
+            Console.WriteLine($"---Write 's' char to scratch his ears.-------");
         }
-
-
-        private sbyte actionOver = -10;
-        private sbyte actionOk = 30;
-        private sbyte actionUnder = -20;
-
-        private sbyte satiationEatIncrementOverTimeCycle = -3;
-        private sbyte satiationDrinkIncrementOverTimeCycle = -10;
-        private sbyte satiationPlayIncrementOverTimeCycle = -5;
-        private sbyte satiationEarScratchIncrementOverTimeCycle = -1;
-
-        private char keyToEat = 'e';
-        private char keyToDrink = 'd';
-        private char keyToPlay = 'p';
-        private char keyToEarScratch = 's';
-        
-
-        private string actualAction;
-        private sbyte origWellBeing;
-        private sbyte modifiedMeasure;
 
 
 
@@ -116,26 +122,6 @@ namespace Tamagotchi
             }
         }
 
-        public void SatiationEatModify(sbyte delta)
-        {
-            satiationEat += delta;
-        }
-
-        public void SatiationDrinkModify(sbyte delta)
-        {
-            satiationDrink += delta;
-        }
-
-        public void SatiationPlayModify(sbyte delta)
-        {
-            satiationPlay += delta;
-        }
-
-        public void SatiationEarScratchModify(sbyte delta)
-        {
-            satiationEarScratch += delta;
-        }
-
         public virtual void TimePass()
         {
             Console.WriteLine("");
@@ -143,10 +129,21 @@ namespace Tamagotchi
             AdjustSatiationsOverTimeCycle();
             Console.WriteLine($"Satiations - eat: {satiationEat}, drink: {satiationDrink}" +
                 $", play: {satiationPlay}, earScratch: {satiationEarScratch} ");
+            Console.WriteLine($"WellBeing: {wellBeing}");
             Console.WriteLine("------------------------------------------------------------------------");
         }
 
-        protected void AdjustSatiationsOverTimeCycle()
+        public void StopTime()
+        {
+            Tamagotchi.timeIntervallProvider.Enabled = false;
+        }
+
+        protected virtual void AdjustSatiationsOverTimeCycle()
+        {
+            AdjustSatiationsOverTimeCycleBase();
+        }
+
+        protected void AdjustSatiationsOverTimeCycleBase()
         {
             actualAction = "Eat";
             satiationEat = AdjustSatiation(satiationEat, satiationEatIncrementOverTimeCycle);
@@ -186,25 +183,36 @@ namespace Tamagotchi
             satiationEarScratch = AdjustSatiation(satiationEarScratch, satiationIncrement);
         }
 
-        private sbyte AdjustSatiation(sbyte measure, sbyte increment)
+        protected sbyte AdjustSatiation(sbyte measure, sbyte increment)
         {
             modifiedMeasure = measure;
             
             if (measure + increment >= 0 && measure + increment <= 100)
             {
                 modifiedMeasure += increment;
-                ModifyWellBeing(actionOk);
             }
             else if (measure + increment < 0)
             {
                 modifiedMeasure = 0;
-                ModifyWellBeing(actionUnder);
             }
             else if (measure + increment > 100)
             {
                 modifiedMeasure = 100;
+            }
+
+            if (measure + increment == 100)
+            {
+                ModifyWellBeing(actionOk);
+            }
+            else if (measure + increment <= 50)
+            {
+                ModifyWellBeing(actionUnder);
+            }
+            else if (measure + increment > 100)
+            {
                 ModifyWellBeing(actionOver);
             }
+
             Console.WriteLine($"{actualAction} satiation modified from {measure} to {modifiedMeasure}.");
             return modifiedMeasure;
         }

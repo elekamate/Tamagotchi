@@ -36,10 +36,6 @@ namespace Tamagotchi
             do
             {
                 consoleLineInput = Console.ReadLine();
-                if (consoleKeyInput.Key == ConsoleKey.Escape)
-                {
-                    Environment.Exit(0);
-                }
                 tamagotchi.DoAction(consoleLineInput);
             } while (consoleKeyInput.Key != ConsoleKey.Escape);
         }

@@ -25,11 +25,12 @@ namespace Tamagotchi
         protected sbyte satiationPlayIncrementOverTimeCycle = -5;
         protected sbyte satiationEarScratchIncrementOverTimeCycle = -1;
 
+        protected char keyToStopTime = 'x';
+        protected string codeToStopApp = "stop";
         protected char keyToEat = 'e';
         protected char keyToDrink = 'd';
         protected char keyToPlay = 'p';
         protected char keyToEarScratch = 's';
-        protected char keyToStopTime = 'x';
 
         protected string actualAction;
         protected sbyte origWellBeing;
@@ -38,88 +39,29 @@ namespace Tamagotchi
         public Animal()
         {
             charsToActions = new Dictionary<char, Action>();
-            charsToActions.Add('x', StopTime);
-            charsToActions.Add('e', Eat);
-            charsToActions.Add('d', Drink);
-            charsToActions.Add('p', Play);
-            charsToActions.Add('s', EarScratch);
-        }
-
-
-        public sbyte GetSatiationEat()
-        {
-            return satiationEat;
-        }
-
-        public sbyte GetSatiationDrink()
-        {
-            return satiationDrink;
-        }
-
-        public sbyte GetSatiationPlay()
-        {
-            return satiationPlay;
-        }
-
-        public sbyte GetSatiationEarScratch()
-        {
-            return satiationEarScratch;
-        }
-
-        public void DoAction(string consoleLineInput)
-        {
-            foreach (KeyValuePair<char, Action> item in charsToActions)
-            {
-                if (consoleLineInput.ToLower().Contains(item.Key))
-                {
-                    item.Value();
-                }
-            }
-        }
-
-        public void CheckAndModifyWellbeing()
-        {
-
+            charsToActions.Add(keyToStopTime, StopTime);
+            charsToActions.Add(keyToEat, Eat);
+            charsToActions.Add(keyToDrink, Drink);
+            charsToActions.Add(keyToPlay, Play);
+            charsToActions.Add(keyToEarScratch, EarScratch);
         }
 
         public virtual void PrintCreatedMessage()
         {
             PrintCreatedMessageBase();
-            Console.WriteLine($"---------------------------------------------");
+            Console.WriteLine($"-----------------------------------------------");
         }
 
         protected void PrintCreatedMessageBase()
         {
             Console.WriteLine("");
-            Console.WriteLine($"-----Cat has been created successfully!------");
-            Console.WriteLine($"---Write 'x' char to stop the time.----------");
-            Console.WriteLine($"---Write 'e' char to feed him.---------------");
-            Console.WriteLine($"---Write 'd' char to give him water.---------");
-            Console.WriteLine($"---Write 'p' char to play with him.----------");
-            Console.WriteLine($"---Write 's' char to scratch his ears.-------");
-        }
-
-
-
-        public void ModifyWellBeing(sbyte delta)
-        {
-            origWellBeing = wellBeing;
-            if (wellBeing + delta >= 0 && wellBeing + delta <= 100)
-            {
-                wellBeing += delta;
-            }
-            else if (wellBeing + delta < 0)
-            {
-                wellBeing = 0;
-            }
-            else if (wellBeing + delta > 100)
-            {
-                wellBeing = 100;
-            }
-            if (origWellBeing != wellBeing)
-            {
-                Console.WriteLine($"Wellbeing modified from {origWellBeing} to {wellBeing}.");
-            }
+            Console.WriteLine($"-----Cat has been created successfully!--------");
+            Console.WriteLine($"---Write '{keyToStopTime}' char to stop the time.------------");
+            Console.WriteLine($"---Write '{codeToStopApp}' char to stop the app.-------------");
+            Console.WriteLine($"---Write '{keyToEat}' char to feed him.-----------------");
+            Console.WriteLine($"---Write '{keyToDrink}' char to give him water.-----------");
+            Console.WriteLine($"---Write '{keyToPlay}' char to play with him.------------");
+            Console.WriteLine($"---Write '{keyToEarScratch}' char to scratch his ears.---------");
         }
 
         public virtual void TimePass()
@@ -138,21 +80,15 @@ namespace Tamagotchi
             Tamagotchi.timeIntervallProvider.Enabled = false;
         }
 
-        protected virtual void AdjustSatiationsOverTimeCycle()
+        public void DoAction(string consoleLineInput)
         {
-            AdjustSatiationsOverTimeCycleBase();
-        }
-
-        protected void AdjustSatiationsOverTimeCycleBase()
-        {
-            actualAction = "Eat";
-            satiationEat = AdjustSatiation(satiationEat, satiationEatIncrementOverTimeCycle);
-            actualAction = "Drink";
-            satiationDrink = AdjustSatiation(satiationDrink, satiationDrinkIncrementOverTimeCycle);
-            actualAction = "Play";
-            satiationPlay = AdjustSatiation(satiationPlay, satiationPlayIncrementOverTimeCycle);
-            actualAction = "EarScratch";
-            satiationEarScratch = AdjustSatiation(satiationEarScratch, satiationEarScratchIncrementOverTimeCycle);
+            foreach (KeyValuePair<char, Action> item in charsToActions)
+            {
+                if (consoleLineInput.ToLower().Contains(item.Key))
+                {
+                    item.Value();
+                }
+            }
         }
 
         public void Eat()
@@ -183,6 +119,23 @@ namespace Tamagotchi
             satiationEarScratch = AdjustSatiation(satiationEarScratch, satiationIncrement);
         }
 
+        protected virtual void AdjustSatiationsOverTimeCycle()
+        {
+            AdjustSatiationsOverTimeCycleBase();
+        }
+
+        protected void AdjustSatiationsOverTimeCycleBase()
+        {
+            actualAction = "Eat";
+            satiationEat = AdjustSatiation(satiationEat, satiationEatIncrementOverTimeCycle);
+            actualAction = "Drink";
+            satiationDrink = AdjustSatiation(satiationDrink, satiationDrinkIncrementOverTimeCycle);
+            actualAction = "Play";
+            satiationPlay = AdjustSatiation(satiationPlay, satiationPlayIncrementOverTimeCycle);
+            actualAction = "EarScratch";
+            satiationEarScratch = AdjustSatiation(satiationEarScratch, satiationEarScratchIncrementOverTimeCycle);
+        }
+
         protected sbyte AdjustSatiation(sbyte measure, sbyte increment)
         {
             modifiedMeasure = measure;
@@ -200,7 +153,7 @@ namespace Tamagotchi
                 modifiedMeasure = 100;
             }
 
-            if (measure + increment == 100)
+            if (measure + increment == 100 && measure < 100)
             {
                 ModifyWellBeing(actionOk);
             }
@@ -215,6 +168,29 @@ namespace Tamagotchi
 
             Console.WriteLine($"{actualAction} satiation modified from {measure} to {modifiedMeasure}.");
             return modifiedMeasure;
+        }
+
+        public void ModifyWellBeing(sbyte delta)
+        {
+            origWellBeing = wellBeing;
+
+            if (wellBeing + delta >= 0 && wellBeing + delta <= 100)
+            {
+                wellBeing += delta;
+            }
+            else if (wellBeing + delta < 0)
+            {
+                wellBeing = 0;
+            }
+            else if (wellBeing + delta > 100)
+            {
+                wellBeing = 100;
+            }
+
+            if (origWellBeing != wellBeing)
+            {
+                Console.WriteLine($"Wellbeing modified from {origWellBeing} to {wellBeing}.");
+            }
         }
     }
 }

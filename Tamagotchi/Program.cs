@@ -37,7 +37,7 @@ namespace Tamagotchi
             {
                 consoleLineInput = Console.ReadLine();
                 tamagotchi.DoAction(consoleLineInput);
-            } while (consoleKeyInput.Key != ConsoleKey.Escape);
+            } while (consoleLineInput != Tamagotchi.codeToStopApp);
         }
 
         private static void FreqCycleCount(object source, ElapsedEventArgs e, Animal tamagotchi)

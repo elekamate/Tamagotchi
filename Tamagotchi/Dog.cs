@@ -8,13 +8,20 @@ namespace Tamagotchi
 {
     class Dog : Animal, IWalkable
     {
-        private ConsoleKey keyToWalk = ConsoleKey.W;
+        private char keyToWalk = 'w';
         private sbyte satiationWalk = 100;
         protected sbyte satiationWalkIncrementOverTimeCycle = -2;
 
         public Dog()
         {
-            charsToActions.Add('w', Walk);
+            charsToActions.Add(keyToWalk, Walk);
+        }
+
+        public override void PrintCreatedMessage()
+        {
+            PrintCreatedMessageBase();
+            Console.WriteLine($"---Write '{keyToWalk}' char to walk him.-----------------");
+            Console.WriteLine($"-----------------------------------------------");
         }
 
         public override void TimePass()
@@ -33,13 +40,6 @@ namespace Tamagotchi
             AdjustSatiationsOverTimeCycleBase();
             actualAction = "Walk";
             satiationWalk = AdjustSatiation(satiationWalk, satiationWalkIncrementOverTimeCycle);
-        }
-
-        public override void PrintCreatedMessage()
-        {
-            PrintCreatedMessageBase();
-            Console.WriteLine($"---Write 'w' char to walk him.---------------");
-            Console.WriteLine($"---------------------------------------------");
         }
 
         public void Walk()

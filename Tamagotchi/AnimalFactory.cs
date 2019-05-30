@@ -12,8 +12,6 @@ namespace Tamagotchi
         {
             if (consoleInput.Key == ConsoleKey.C)
             {
-                
-                
                 return new Cat();
             }
             else

@@ -11,6 +11,8 @@ namespace Tamagotchi
     {
         public static Timer timeIntervallProvider;
         public static int timeIntervall = 3000;
+        public static string codeToStopApp = "stop";
+
         public static void WelcomeMessage()
         {
             Console.WriteLine("------------------Welcome!---------------------");

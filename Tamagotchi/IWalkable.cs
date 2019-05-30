@@ -8,7 +8,6 @@ namespace Tamagotchi
 {
     interface IWalkable
     {
-
         void Walk();
     }
 }

@@ -16,7 +16,6 @@ namespace Tamagotchi
             }
             else
             {
-                Console.WriteLine($"---Dog has been created successfully!---");
                 return new Dog();
             }
         }

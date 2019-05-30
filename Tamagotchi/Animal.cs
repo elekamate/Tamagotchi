@@ -55,9 +55,9 @@ namespace Tamagotchi
         protected void PrintCreatedMessageBase()
         {
             Console.WriteLine("");
-            Console.WriteLine($"-----Cat has been created successfully!--------");
+            Console.WriteLine($"-----{this.GetType().Name} has been created successfully!--------");
             Console.WriteLine($"---Write '{keyToStopTime}' char to stop the time.------------");
-            Console.WriteLine($"---Write '{codeToStopApp}' char to stop the app.-------------");
+            Console.WriteLine($"---Write '{codeToStopApp}' char to stop the app.----------");
             Console.WriteLine($"---Write '{keyToEat}' char to feed him.-----------------");
             Console.WriteLine($"---Write '{keyToDrink}' char to give him water.-----------");
             Console.WriteLine($"---Write '{keyToPlay}' char to play with him.------------");

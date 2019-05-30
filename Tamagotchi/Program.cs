@@ -23,7 +23,10 @@ namespace Tamagotchi
                 }
             } while (consoleInput.Key != ConsoleKey.C && consoleInput.Key != ConsoleKey.D);
 
+            Tamagotchi.ClearConsoleLine();
             tamagotchi = AnimalFactory.Create(consoleInput);
+            tamagotchi.PrintCreatedMessage();
+            
             Tamagotchi.timeIntervallProvider = new Timer();
             Tamagotchi.timeIntervallProvider.Elapsed += (sender, e) => FreqCycleCount(sender, e, tamagotchi);
             Tamagotchi.timeIntervallProvider.Interval = Tamagotchi.timeIntervall;

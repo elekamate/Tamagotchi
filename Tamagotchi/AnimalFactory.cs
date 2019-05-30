@@ -12,12 +12,13 @@ namespace Tamagotchi
         {
             if (consoleInput.Key == ConsoleKey.C)
             {
-                Console.WriteLine($"Cat has been created successfully!");
+                
+                
                 return new Cat();
             }
             else
             {
-                Console.WriteLine($"Dog has been created successfully!");
+                Console.WriteLine($"---Dog has been created successfully!---");
                 return new Dog();
             }
         }

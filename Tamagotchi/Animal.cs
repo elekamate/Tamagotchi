@@ -35,6 +35,22 @@ namespace Tamagotchi
             return satiationEarScratch;
         }
 
+        public virtual void PrintCreatedMessage()
+        {
+            PrintCreatedMessageBase();
+            Console.WriteLine($"--------------------------------------------");
+        }
+
+        protected void PrintCreatedMessageBase()
+        {
+            Console.WriteLine($"-----Cat has been created successfully!-----");
+            Console.WriteLine($"---Press 'SpaceBar' key to stop the time.---");
+            Console.WriteLine($"---Press 'E' key to feed him.---------------");
+            Console.WriteLine($"---Press 'D' key to give him water.---------");
+            Console.WriteLine($"---Press 'P' key to play with him.----------");
+            Console.WriteLine($"---Press 'S' key to scratch his ears.-------");
+        }
+
         private sbyte actionOver = -10;
         private sbyte actionOk = 30;
         private sbyte actionUnder = -20;
@@ -96,11 +112,12 @@ namespace Tamagotchi
 
         public virtual void TimePass()
         {
-            Console.WriteLine("---TimeCycle passed.---");
+            Console.WriteLine("");
+            Console.WriteLine("---TimeCycle passed.----------------------------------------------------");
             AdjustSatiationsOverTimeCycle();
             Console.WriteLine($"Satiations - eat: {satiationEat}, drink: {satiationDrink}" +
                 $", play: {satiationPlay}, earScratch: {satiationEarScratch} ");
-            Console.WriteLine("-----------------------");
+            Console.WriteLine("------------------------------------------------------------------------");
         }
 
         protected void AdjustSatiationsOverTimeCycle()

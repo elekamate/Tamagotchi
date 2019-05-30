@@ -39,13 +39,18 @@ namespace Tamagotchi
         private sbyte actionOk = 30;
         private sbyte actionUnder = -20;
 
+        private sbyte satiationEatIncrementOverTimeCycle = -3;
+        private sbyte satiationDrinkIncrementOverTimeCycle = -10;
+        private sbyte satiationPlayIncrementOverTimeCycle = -5;
+        private sbyte satiationEarScratchIncrementOverTimeCycle = -1;
+
         private ConsoleKey keyToEat = ConsoleKey.E;
         private ConsoleKey keyToDrink = ConsoleKey.D;
         private ConsoleKey keyToPlay = ConsoleKey.P;
         private ConsoleKey keyToEarScratch = ConsoleKey.S;
         private string actualAction;
         private sbyte origWellBeing;
-        private sbyte origMeasure;
+        private sbyte modifiedMeasure;
 
 
         public void ModifyWellBeing(sbyte delta)
@@ -63,7 +68,10 @@ namespace Tamagotchi
             {
                 wellBeing = 100;
             }
-            Console.WriteLine($"Wellbeing modified from {origWellBeing} to {wellBeing}.");
+            if (origWellBeing != wellBeing)
+            {
+                Console.WriteLine($"Wellbeing modified from {origWellBeing} to {wellBeing}.");
+            }
         }
 
         public void SatiationEatModify(sbyte delta)
@@ -88,59 +96,74 @@ namespace Tamagotchi
 
         public virtual void TimePass()
         {
-            SatiationEatModify(-3);
-            SatiationDrinkModify(-10);
-            SatiationPlayModify(-5);
-            SatiationEarScratchModify(-1);
+            Console.WriteLine("---TimeCycle passed.---");
+            AdjustSatiationsOverTimeCycle();
             Console.WriteLine($"Satiations - eat: {satiationEat}, drink: {satiationDrink}" +
                 $", play: {satiationPlay}, earScratch: {satiationEarScratch} ");
+            Console.WriteLine("-----------------------");
+        }
+
+        protected void AdjustSatiationsOverTimeCycle()
+        {
+            actualAction = "Eat";
+            satiationEat = AdjustSatiation(satiationEat, satiationEatIncrementOverTimeCycle);
+            actualAction = "Drink";
+            satiationDrink = AdjustSatiation(satiationDrink, satiationDrinkIncrementOverTimeCycle);
+            actualAction = "Play";
+            satiationPlay = AdjustSatiation(satiationPlay, satiationPlayIncrementOverTimeCycle);
+            actualAction = "EarScratch";
+            satiationEarScratch = AdjustSatiation(satiationEarScratch, satiationEarScratchIncrementOverTimeCycle);
         }
 
         public void Eat()
         {
             Console.WriteLine($"Tamagotchi is eating.");
             actualAction = "Eat";
-            satiationEat = AdjustSatiation(satiationEat);
+            satiationEat = AdjustSatiation(satiationEat, satiationIncrement);
         }
 
         public void Drink()
         {
             Console.WriteLine($"Tamagotchi is drinking.");
-            satiationDrink = AdjustSatiation(satiationEat);
+            actualAction = "Drink";
+            satiationDrink = AdjustSatiation(satiationDrink, satiationIncrement);
         }
 
         public void Play()
         {
             Console.WriteLine($"Tamagotchi is playing.");
-            satiationPlay = AdjustSatiation(satiationEat);
+            actualAction = "Play";
+            satiationPlay = AdjustSatiation(satiationPlay, satiationIncrement);
         }
 
         public void EarScratch()
         {
             Console.WriteLine($"Tamagotchi's ear is being scratched right now.");
-            satiationEarScratch = AdjustSatiation(satiationEat);
+            actualAction = "EarScratch";
+            satiationEarScratch = AdjustSatiation(satiationEarScratch, satiationIncrement);
         }
 
-        private sbyte AdjustSatiation(sbyte measure)
+        private sbyte AdjustSatiation(sbyte measure, sbyte increment)
         {
-            origMeasure = measure;            
-            if (measure + satiationIncrement >= 0 && measure + satiationIncrement <= 100)
+            modifiedMeasure = measure;
+            
+            if (measure + increment >= 0 && measure + increment <= 100)
             {
-                measure += satiationIncrement;
+                modifiedMeasure += increment;
                 ModifyWellBeing(actionOk);
             }
-            else if (measure + satiationIncrement < 0)
+            else if (measure + increment < 0)
             {
-                measure = 0;
+                modifiedMeasure = 0;
                 ModifyWellBeing(actionUnder);
             }
-            else if (measure + satiationIncrement > 100)
+            else if (measure + increment > 100)
             {
-                measure = 100;
+                modifiedMeasure = 100;
                 ModifyWellBeing(actionOver);
             }
-            Console.WriteLine($"{actualAction} satiation modified from {origMeasure} to {measure}.");
-            return measure;
+            Console.WriteLine($"{actualAction} satiation modified from {measure} to {modifiedMeasure}.");
+            return modifiedMeasure;
         }
     }
 }

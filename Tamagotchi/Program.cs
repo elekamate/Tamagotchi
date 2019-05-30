@@ -17,19 +17,26 @@ namespace Tamagotchi
             do
             {
                 consoleInput = Console.ReadKey();
-                tamagotchi = AnimalFactory.Create(consoleInput);
                 if (consoleInput.Key == ConsoleKey.Escape)
                 {
                     Environment.Exit(0);
                 }
             } while (consoleInput.Key != ConsoleKey.C && consoleInput.Key != ConsoleKey.D);
 
-            System.Timers.Timer aTimer = new System.Timers.Timer();
-            aTimer.Elapsed += (sender, e) => FreqCycleCount(sender, e, tamagotchi);
-            aTimer.Interval = Tamagotchi.timePassIntervall;
-            aTimer.Enabled = true;
+            tamagotchi = AnimalFactory.Create(consoleInput);
+            Tamagotchi.timeIntervallProvider = new Timer();
+            Tamagotchi.timeIntervallProvider.Elapsed += (sender, e) => FreqCycleCount(sender, e, tamagotchi);
+            Tamagotchi.timeIntervallProvider.Interval = Tamagotchi.timeIntervall;
+            Tamagotchi.timeIntervallProvider.Enabled = true;
 
-            Console.ReadLine();
+            do
+            {
+                consoleInput = Console.ReadKey();
+                if (consoleInput.Key == ConsoleKey.Spacebar)
+                {
+                    Tamagotchi.timeIntervallProvider.Enabled = false;
+                }
+            } while (consoleInput.Key != ConsoleKey.C && consoleInput.Key != ConsoleKey.D);
         }
 
         private static void FreqCycleCount(object source, ElapsedEventArgs e, Animal tamagotchi)

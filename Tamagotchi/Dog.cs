@@ -10,10 +10,8 @@ namespace Tamagotchi
     {
         public override void TimePass()
         {
-            SatiationEatModify(-3);
-            SatiationDrinkModify(-10);
-            SatiationPlayModify(-5);
-            SatiationEarScratchModify(-1);
+            AdjustSatiationsOverTimeCycle();
+
             Console.WriteLine($"Satiations - eat: {GetSatiationEat()}, drink: {GetSatiationDrink()}" +
                 $", play: {GetSatiationPlay()}, earScratch: {GetSatiationEarScratch()} ");
         }

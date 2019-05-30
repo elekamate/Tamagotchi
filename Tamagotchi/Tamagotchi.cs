@@ -9,7 +9,8 @@ namespace Tamagotchi
 {
     class Tamagotchi
     {
-        public static int timePassIntervall = 3000;
+        public static Timer timeIntervallProvider;
+        public static int timeIntervall = 3000;
         public static void WelcomeMessage()
         {
             Console.WriteLine("Welcome!");

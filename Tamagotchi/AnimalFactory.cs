@@ -10,16 +10,15 @@ namespace Tamagotchi
     {
         public static Animal Create(ConsoleKeyInfo consoleInput)
         {
-            switch (consoleInput.Key)
+            if (consoleInput.Key == ConsoleKey.C)
             {
-                case ConsoleKey.C:
-                    Console.WriteLine($"Cat has been created successfully!");
-                    return new Cat();
-                case ConsoleKey.D:
-                    Console.WriteLine($"Dog has been created successfully!");
-                    return new Dog();
-                default:
-                    return new Cat();
+                Console.WriteLine($"Cat has been created successfully!");
+                return new Cat();
+            }
+            else
+            {
+                Console.WriteLine($"Dog has been created successfully!");
+                return new Dog();
             }
         }
     }
